@@ -4,12 +4,10 @@ $(document).ready(function () {
             function (result) {
                 console.log(result);
                 if (result.cancelled) {
-                    $('#scanner_body').append("<p>The scan was cancelled</p>");
                     swal('The scan was cancelled');
                 }
                 else {
-                    $('#scanner_body').append("<p>" + result.text + "</p>");
-                    swal('The result of the scan was "' + result.text + '"');
+                    scanSuccess(result);
                 }
             }, 
             function (error) {
@@ -25,6 +23,32 @@ $(document).ready(function () {
             }
         );
     });
+
+    $('#clear').on('click',function (){
+        $('#scanner_body').remove();
+    });
+    
 });
+
+function scanSuccess(scan){
+    $('#scanner_body').append("<p>" + scan.text + "</p>");
+    swal({
+        title: 'Auto close alert!',
+        text: 'I will close in 2 seconds.',
+        timer: 2000,
+        type: 'success',
+        onOpen: () => {
+          swal.showLoading()
+        }
+    }).then((result) => {
+        if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.timer
+        ) {
+          console.log('I was closed by the timer')
+        }
+    })    
+}
+
 
 
