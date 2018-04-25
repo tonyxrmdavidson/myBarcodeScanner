@@ -3,12 +3,13 @@ $(document).ready(function () {
         cordova.plugins.barcodeScanner.scan(       
             function (result) {
                 console.log(result);
-                if (result.cancelled) {
-                    swal('The scan was cancelled');
-                }
-                else {
-                    scanSuccess(result);
-                }
+                (result.cancelled) ? swal('The scan was cancelled') : scanSuccess(result);
+                // if (result.cancelled) {
+                //     swal('The scan was cancelled');
+                // }
+                // else {
+                //     scanSuccess(result);
+                // }
             }, 
             function (error) {
                 swal("Scanning failed: " + error);
@@ -25,9 +26,9 @@ $(document).ready(function () {
     });
 
     $('#clear').on('click',function (){
-        $('#scanner_body').remove();
+        $('#scanner_body').empty();
     });
-    
+
 });
 
 function scanSuccess(scan){
