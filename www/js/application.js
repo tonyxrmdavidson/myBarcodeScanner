@@ -3,13 +3,13 @@ $(document).ready(function () {
         cordova.plugins.barcodeScanner.scan(       
             function (result) {
                 console.log(result);
-                (result.cancelled) ? swal('The scan was cancelled') : scanSuccess(result);
-                // if (result.cancelled) {
-                //     swal('The scan was cancelled');
-                // }
-                // else {
-                //     scanSuccess(result);
-                // }
+                //(result.cancelled) ? swal('The scan was cancelled') : scanSuccess(result);  //short cut version
+                if (result.cancelled) {
+                    swal('The scan was cancelled');
+                }
+                else {
+                    scanSuccess(result);
+                }
             }, 
             function (error) {
                 swal("Scanning failed: " + error);
