@@ -4,7 +4,6 @@ function loadListeners(){
     loadCodes();
     document.addEventListener('pause', function(){
         saveCodes(myCodes);
-
     }, false);
     document.addEventListener('resume', function(){
        loadCodes();
@@ -53,12 +52,20 @@ function loadCodesToBody(){
 }
 
 function scanSuccess(scan){
-    $('#scanner_body').append("<p>" + scan.text + "</p>");
-    saveNewCode(scan.text);
+    var message;
+    if(scan.text.includes("http")){
+        $('#scanner_body').append("<p><a href='" + scan.text + "'>" + scan.text + "</a></p>");
+        message = 'You scanned a URL!';
+    }else{
+        $('#scanner_body').append("<p>" + scan.text + "</p>");
+        message = 'You scanned a String!';
+    }
     swal({
-        type: 'success',
-        text: 'Code successfully added.',
-    });    
+        text: message,
+        timer: 1000,
+        type: 'success'
+    });
+    saveNewCode(scan.text);   
 }
 
 function saveNewCode(text){
