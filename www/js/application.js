@@ -32,23 +32,19 @@ $(document).ready(function () {
 });
 
 function scanSuccess(scan){
-    $('#scanner_body').append("<p>" + scan.text + "</p>");
+    var message;
+    if(scan.text.includes("http")){
+        $('#scanner_body').append("<p><a href='" + scan.text + "'>" + scan.text + "</a></p>");
+        message = 'You scanned a URL!';
+    }else{
+        $('#scanner_body').append("<p>" + scan.text + "</p>");
+        message = 'You scanned a String!';
+    }
     swal({
-        title: 'Auto close alert!',
-        text: 'I will close in 2 seconds.',
-        timer: 2000,
-        type: 'success',
-        onOpen: () => {
-          swal.showLoading()
-        }
-    }).then((result) => {
-        if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.timer
-        ) {
-          console.log('I was closed by the timer')
-        }
-    })    
+        text: message,
+        timer: 1000,
+        type: 'success'
+    }) 
 }
 
 
